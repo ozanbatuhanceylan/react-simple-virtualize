@@ -1,21 +1,10 @@
-import { UIEvent } from 'react';
-
-export interface VirtualItem {
-  index: number;
-  offsetTop: number;
-}
-
-export interface UseVirtualizerOptions {
-  itemCount: number;
-  itemHeight: number;
-  containerHeight: number;
-  overscan?: number;
-}
-
-export interface UseVirtualizerResult {
-  virtualItems: VirtualItem[];
-  totalHeight: number;
-  onScroll: (e: UIEvent<HTMLElement>) => void;
-}
-
-export declare function useVirtualizer(options: UseVirtualizerOptions): UseVirtualizerResult;
+export function useVirtualize({ itemCount, itemHeight, containerHeight, overscan }: {
+    itemCount: any;
+    itemHeight: any;
+    containerHeight: any;
+    overscan?: number;
+}): {
+    virtualItems: any;
+    totalHeight: any;
+    onScroll: (e: any) => void;
+};

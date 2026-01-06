@@ -1,6 +1,6 @@
 {
   "name": "react-simple-virtualize",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A lightweight, dependency-free virtualization hook for React.",
   "source": "src/index.js",
   "main": "dist/index.js",

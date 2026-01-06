@@ -1,0 +1,7 @@
+# .npmignore
+example
+node_modules
+.gitignore
+.npmrc
+.git
+.DS_Store

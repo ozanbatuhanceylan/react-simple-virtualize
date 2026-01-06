@@ -29,7 +29,7 @@ Here is a basic example of a list with 10,000 items:
 
 ```jsx
 import React from 'react';
-import { useVirtualizer } from 'react-simple-virtualize';
+import { useVirtualize } from 'react-simple-virtualize';
 
 const MyLargeList = () => {
   // 1. Setup your data
@@ -40,7 +40,7 @@ const MyLargeList = () => {
   const itemHeight = 50;
 
   // 3. Initialize the hook
-  const { virtualItems, totalHeight, onScroll } = useVirtualizer({
+  const { virtualItems, totalHeight, onScroll } = useVirtualize({
     itemCount: items.length,
     itemHeight,
     containerHeight,
@@ -91,7 +91,7 @@ export default MyLargeList;
 
 ## ⚙️ API Reference
 
-### `useVirtualizer(options)`
+### `useVirtualize(options)`
 
 | Option | Type | Required | Description |
 | :--- | :--- | :--- | :--- |

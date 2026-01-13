@@ -1,39 +1,45 @@
 {
-  "name": "react-simple-virtualize",
-  "version": "1.0.0",
-  "description": "A lightweight, dependency-free virtualization hook for React.",
-  "source": "src/index.js",
-  "main": "dist/index.js",
-  "module": "dist/index.module.js",
-  "unpkg": "dist/index.umd.js",
-  "types": "src/index.d.ts",
-  "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
-    "prepublishOnly": "npm run build"
-  },
-  "keywords": [
-    "react",
-    "virtual-list",
-    "virtualization",
-    "scroll",
-    "performance",
-    "hook"
-  ],
-  "author": "Ozan Batuhan Ceylan",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ozanbatuhanceylan/react-simple-virtualize"
-  },
-  "funding": {
-    "type": "buymeacoffee",
-    "url": "https://www.buymeacoffee.com/obceylan"
-  },
-  "peerDependencies": {
-    "react": ">=16.8.0"
-  },
-  "devDependencies": {
-    "microbundle": "^0.15.1"
-  }
+    "name": "react-simple-virtualize",
+    "version": "2.0.0",
+    "description": "A lightweight, dependency-free virtualization hook for React.",
+    "source": "src/index.ts",
+    "main": "dist/index.js",
+    "module": "dist/index.module.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        "types": "./dist/index.d.ts",
+        "require": "./dist/index.js",
+        "default": "./dist/index.module.js"
+    },
+    "unpkg": "dist/index.umd.js",
+    "scripts": {
+        "build": "microbundle",
+        "dev": "microbundle watch",
+        "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+        "react",
+        "virtual-list",
+        "virtualization",
+        "scroll",
+        "performance",
+        "hook"
+    ],
+    "author": "Ozan Batuhan Ceylan",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ozanbatuhanceylan/react-simple-virtualize"
+    },
+    "funding": {
+        "type": "buymeacoffee",
+        "url": "https://www.buymeacoffee.com/obceylan"
+    },
+    "peerDependencies": {
+        "react": ">=16.8.0"
+    },
+    "devDependencies": {
+        "@types/react": "^19.2.8",
+        "microbundle": "^0.15.1"
+    }
 }

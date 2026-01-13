@@ -51,6 +51,7 @@ const MyLargeList = () => {
     // Outer Container: Needs fixed height & overflow-y: auto
     <div
       onScroll={onScroll}
+      ref={scrollRef}
       style={{
         height: containerHeight,
         overflowY: 'auto',
@@ -65,6 +66,7 @@ const MyLargeList = () => {
         {virtualItems.map(({ index, offsetTop }) => (
           <div
             key={index}
+            ref={virtualItem.measureRef}
             style={{
               position: 'absolute',
               top: 0,
@@ -91,31 +93,64 @@ export default MyLargeList;
 
 ## ⚙️ API Reference
 
-### `useVirtualize(options)`
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `itemCount` | `number` | **Required** | Total number of items in the list. |
+| `itemHeight` | `number` | **Required** | Estimated height of an item. Used for initial rendering and unmeasured items. |
+| `overscan` | `number` | `3` | Number of extra items to render outside the visible viewport. |
+| `containerHeight` | `number` | `undefined` | Optional fixed height. If omitted, the hook uses `ResizeObserver` on `scrollRef` to measure it automatically. |
 
-| Option | Type | Required | Description |
-| :--- | :--- | :--- | :--- |
-| `itemCount` | `number` | Yes | Total number of items in the list. |
-| `itemHeight` | `number` | Yes | Height of a single item in pixels. |
-| `containerHeight` | `number` | Yes | Height of the visible scroll area (viewport). |
-| `overscan` | `number` | No | Number of extra items to render above/below the visible area (Default: 3). |
-
-### Returns
+### Return Values
 
 | Value | Type | Description |
-| :--- | :--- | :--- |
-| `virtualItems` | `array` | Array of items to be rendered. Each item contains `{ index, offsetTop }`. |
-| `totalHeight` | `number` | Total height of the list (used for the inner container). |
-| `onScroll` | `function` | Event handler to be attached to the outer container's `onScroll`. |
+|---|---|---|
+| `virtualItems` | `VirtualItem[]` | Array of items to be rendered in the current viewport. |
+| `totalHeight` | `number` | Total calculated height of the list (apply this to the inner container). |
+| `scrollRef` | `RefObject` | Ref to be attached to the scrollable container element (for auto-sizing). |
+| `onScroll` | `function` | Scroll handler to be attached to the scrollable container. |
+
+#### `VirtualItem` Interface
+```ts
+interface VirtualItem {
+  index: number;
+  offsetTop: number;
+  measureRef: (el: HTMLElement | null) => void; // Must be attached to the rendered element
+}
+```
+
+## Migration from v1 to v2
+
+v2 introduces support for **Dynamic Heights**. This is a breaking change.
+
+**Changes:**
+- You must now attach the `measureRef` to your rendered element.
+- `itemHeight` prop is now used as an **estimate** for unrendered items.
+
+```jsx
+// v1 (Old)
+<div style={{ transform: `translateY(${virtualItem.offsetTop}px)` }}>...</div>
+
+// v2 (New)
+<div 
+  ref={virtualItem.measureRef} // <--- Required!
+  style={{ transform: `translateY(${virtualItem.offsetTop}px)` }}
+>
+  ...
+</div>
+```
 
 ## 🗺️ Roadmap & Support
 
-Currently, this package is optimized for **Fixed Height** lists.
-I am actively working on the following features for the next major release:
+Here's what's planned for the future of `react-simple-virtualize`.
 
-- [ ] **Dynamic Height Support:** For items with variable content (chat bubbles, feeds).
-- [ ] **Grid Virtualization:** Virtualizing both rows and columns.
-- [ ] **Horizontal Scrolling:** Support for X-axis virtualization.
+- [x] **Fixed Height Lists:** Initial release with core virtualization logic. (v1.0)
+- [x] **Dynamic Height Lists:** Support for items with variable heights using a measurement ref. (v2.0) 🚀
+- [ ] **Horizontal Virtualization:** Support for row-based scrolling.
+- [ ] **Grid Virtualization:** Virtualize both rows and columns (spreadsheet style).
+- [ ] **Window Scrolling:** Support for using the browser's native scrollbar instead of a container.
+- [ ] **Infinite Loader:** Built-in support for loading more data as you scroll (Pagination).
+
+> **Note:** If you have a specific feature request, feel free to open an issue!
 
 ### ☕ Support the Development
 

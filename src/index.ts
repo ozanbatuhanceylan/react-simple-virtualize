@@ -172,17 +172,20 @@ export function useVirtualize({
 
         measurementCache.current[index] = measuredHeight;
 
-        if (index > lastMeasuredIndex.current) {
-          const prevOffset = getItemOffset(index);
-          offsetCache.current[index] = prevOffset;
-          lastMeasuredIndex.current = index;
-        } else {
-          lastMeasuredIndex.current = Math.min(
-            lastMeasuredIndex.current,
-            index - 1
-          );
+        if (index <= lastMeasuredIndex.current) {
+             lastMeasuredIndex.current = index - 1; 
         }
 
+        let currentIndex = lastMeasuredIndex.current + 1;
+
+        while (currentIndex < itemCount && measurementCache.current[currentIndex] !== undefined) {
+            const prevOffset = currentIndex > 0 ? offsetCache.current[currentIndex - 1] : 0;
+            const prevH = currentIndex > 0 ? measurementCache.current[currentIndex - 1] : 0;
+            
+            offsetCache.current[currentIndex] = prevOffset + prevH;
+            lastMeasuredIndex.current = currentIndex;
+            currentIndex++;
+        }
         setMeasurementVersion(v => v + 1);
       }
     },
@@ -210,7 +213,11 @@ export function useVirtualize({
   }, [startIndex, endIndex, getItemOffset, measureElement, overscan]);
 
   // Calculate total list height for the scrollbar
-  const totalHeight = getItemOffset(itemCount);
+  const calculatedTotalHeight = getItemOffset(itemCount);
+
+  const totalHeight = !isNaN(calculatedTotalHeight) 
+    ? calculatedTotalHeight 
+    : itemCount * (estimatedItemHeight || 35); // Fallback
 
   return {
     virtualItems,

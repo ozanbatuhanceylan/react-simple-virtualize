@@ -53,7 +53,7 @@ export function useVirtualize({
   const lastMeasuredIndex = useRef(-1);
 
   // Reference to the scrollable container (used for ResizeObserver)
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(undefined);
 
   // Total measured height (Pixel)
   const totalMeasuredSize = useRef(0);

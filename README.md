@@ -35,25 +35,25 @@ const MyLargeList = () => {
   // 1. Setup your data
   const items = Array.from({ length: 10000 }, (_, i) => `Item ${i + 1}`);
   
-  // 2. Define dimensions
-  const containerHeight = 500;
-  const itemHeight = 50;
-
-  // 3. Initialize the hook
-  const { virtualItems, totalHeight, onScroll } = useVirtualize({
+  // 2. Initialize the hook
+  const { 
+    virtualItems, 
+    totalHeight, 
+    scrollRef,
+    onScroll 
+  } = useVirtualize({
     itemCount: items.length,
-    itemHeight,
-    containerHeight,
-    overscan: 5, // Optional: Number of items to render outside viewport
+    itemHeight: 50,
+    overscan: 5,
   });
 
   return (
-    // Outer Container: Needs fixed height & overflow-y: auto
+    // Outer Container: Needs a size (fixed or flex) & overflow-y: auto
     <div
-      onScroll={onScroll}
       ref={scrollRef}
+      onScroll={onScroll}
       style={{
-        height: containerHeight,
+        height: '500px', // Or '100%', 'flex: 1'
         overflowY: 'auto',
         position: 'relative',
         border: '1px solid #ccc'
@@ -63,20 +63,20 @@ const MyLargeList = () => {
       <div style={{ height: totalHeight, position: 'relative' }}>
         
         {/* Render only visible items */}
-        {virtualItems.map(({ index, offsetTop }) => (
+        {virtualItems.map(({ index, offsetTop, measureRef }) => (
           <div
             key={index}
-            ref={virtualItem.measureRef}
+            ref={measureRef} // <--- Crucial for Dynamic Height!
             style={{
               position: 'absolute',
               top: 0,
               left: 0,
               width: '100%',
-              height: itemHeight,
-              transform: `translateY(${offsetTop}px)`, // Crucial for positioning
+              transform: `translateY(${offsetTop}px)`,
               display: 'flex',
               alignItems: 'center',
               paddingLeft: 10,
+              minHeight: 50, // Optional: just for visual
               background: index % 2 === 0 ? '#fff' : '#f5f5f5'
             }}
           >

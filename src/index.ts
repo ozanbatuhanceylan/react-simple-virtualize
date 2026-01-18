@@ -5,6 +5,7 @@ import {
   useCallback,
   useLayoutEffect,
   UIEvent,
+  RefObject,
 } from "react";
 
 export interface UseVirtualizeProps {
@@ -222,7 +223,7 @@ export function useVirtualize({
   return {
     virtualItems,
     totalHeight,
-    scrollRef,
+    scrollRef: scrollRef as RefObject<HTMLDivElement>,
     measurementVersion,
     onScroll: (e: UIEvent<HTMLElement>) =>
       setScrollTop(e.currentTarget.scrollTop),
